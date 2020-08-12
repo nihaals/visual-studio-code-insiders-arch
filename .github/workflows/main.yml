@@ -63,3 +63,8 @@ jobs:
           git commit -m "Updated to $VERSION" || exit 0
           git push
           echo "Updated"
+      - name: Upload artefact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.makepkg.outputs.pkgfile0 }}
+          path: ${{ steps.makepkg.outputs.pkgfile0 }}
