@@ -18,6 +18,7 @@ latest_hash_x86_64 = os.environ['SHA256_x86_64']
 
 print(f'Current pkgver: {current_version}')
 print(f'Latest pkgver: {latest_version}')
+print(f'{latest_version} x86_64 SHA256: {latest_hash_x86_64}')
 
 with open('PKGBUILD') as fp:
     contents = fp.read()
