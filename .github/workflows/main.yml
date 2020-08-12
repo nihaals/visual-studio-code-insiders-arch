@@ -43,13 +43,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
       - name: Update version
         env:
           VERSION: ${{ needs.get-upstream-version.outputs.version }}
           SHA256_x86_64: ${{ needs.get-upstream-version.outputs.sha256-x86_64 }}
-        run: |
-          if [ "$VERSION" -ne "$(cat PKGBUILD | grep -Po "pkgver=\K.+")" ]; then sed -Ei'' "/pkgrel=/s/.+/pkgrel=1/" PKGBUILD; fi
-          cat PKGBUILD | sed -E "/pkgver=/s/.+/pkgver=${VERSION}/" | sed -E "/sha256sums_x86_64=/s/.+/sha256sums_x86_64=('${SHA256_x86_64}')/" | tee PKGBUILD > /dev/null
+        run: python ./.github/actions/update-version/update-version.py
       - name: Package utils
         id: pkg
         uses: ./.github/actions/pkg
