@@ -34,8 +34,19 @@ _src_x86="https://update.code.visualstudio.com/latest/linux-ia32/insider"
 #   "${pkgname}.desktop"
 #   "${pkgname}-url-handler.desktop"
 # )
-sha256sums_x86_64=('786eea34b657ae7255e4e27414754817ee6329a0f91d4618e472460afc387b21')
-# sha256sums_i686=('')
+
+_main_desktop_sha256='edfeb13aa50d35fbae748ff545b5bd126be916dbfeda682157e3d5ce81574db2'
+_url_handler_desktop_sha256='d06d9d057b507d1747a8ed8ae304beb5e20c7bf887c362c941d85b02c893069e'
+sha256sums_x86_64=(
+  '786eea34b657ae7255e4e27414754817ee6329a0f91d4618e472460afc387b21'
+  "${_main_desktop_sha256}"
+  "${_url_handler_desktop_sha256}"
+)
+# sha256sums_i686=(
+#   ''
+#   "${_main_desktop_sha256}"
+#   "${_url_handler_desktop_sha256}"
+# )
 
 package() {
   _pkg=VSCode-linux-x64
