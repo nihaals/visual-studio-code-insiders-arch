@@ -11,7 +11,7 @@ depends=(
   'gtk3'
   'libsecret'
   'nss'
-  'gc-libs'
+  'gcc-libs'
   'libnotify'
   'libxss'
   'glibc'
