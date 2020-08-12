@@ -51,6 +51,7 @@ jobs:
           if [ "$VERSION" -ne "$(cat PKGBUILD | grep -Po "pkgver=\K.+")" ]; then sed -Ei'' "/pkgrel=/s/.+/pkgrel=1/" PKGBUILD; fi
           cat PKGBUILD | sed -E "/pkgver=/s/.+/pkgver=${VERSION}/" | sed -E "/sha256sums_x86_64=/s/.+/sha256sums_x86_64=('${SHA256_x86_64}')/" | tee PKGBUILD > /dev/null
       - name: Package utils
+        id: pkg
         uses: ./.github/actions/pkg
       - name: Push update
         env:
@@ -66,5 +67,5 @@ jobs:
       - name: Upload artefact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ steps.makepkg.outputs.pkgfile0 }}
-          path: ${{ steps.makepkg.outputs.pkgfile0 }}
+          name: ${{ steps.pkg.outputs.pkgfile0 }}
+          path: ${{ steps.pkg.outputs.pkgfile0 }}
