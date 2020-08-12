@@ -1,0 +1,62 @@
+name: Update
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - .github/workflows/**
+      - PKGBUILD
+      - visual-studio-code-insiders.desktop
+      - visual-studio-code-insiders-url-handler.desktop
+  workflow_dispatch: []
+  schedule:
+    - cron: "0 */3 * * *"
+
+jobs:
+  get-upstream-version:
+    name: Get upstream version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+      sha256-x86_64: ${{ steps.sha256-x86_64.outputs.hash }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download latest tar
+        run: curl -JLO "$(cat PKGBUILD | grep -Po "_src_x86_64=\"\K.+\"" | rev | cut -c2- | rev)"
+      - name: Extract version number from tar
+        id: get-version
+        run: |
+          version="$(echo ./code-insider-*.tar.gz | grep -Po "\.\/code-insider-\K.+" | rev | cut -c8- | rev)"
+          echo "::set-output name=version::${version}"
+      - name: Get SHA256 of x86_64 tar
+        id: sha256-x86_64
+        run: echo "::set-output name=hash::$(sha256sum ./code-insider-*.tar.gz | awk '{ print $1 }')"
+
+  edit-pkgbuild:
+    needs: get-upstream-version
+    name: Edit PKGBUILD and push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Update version
+        env:
+          VERSION: ${{ needs.get-upstream-version.outputs.version }}
+          SHA256-x86_64: ${{ needs.get-upstream-version.outputs.sha256-x86_64 }}
+        run: |
+          if [ "$VERSION" -ne "$(cat PKGBUILD | grep -Po "pkgver=\K.+")" ]; then sed -Ei'' "/pkgrel=/s/.+/pkgrel=1/" PKGBUILD; fi
+          cat PKGBUILD | sed -E "/pkgver=/s/.+/pkgver=${VERSION}/" | sed -E "/sha256sums_x86_64=/s/.+/sha256sums_x86_64=('${SHA256-x86_64}')/" > PKGBUILD
+      - name: Package utils
+        uses: ./.github/actions/pkg
+      - name: Push update
+        env:
+          VERSION: ${{ needs.get-upstream-version.outputs.version }}
+        run: |
+          test -z "$(git status --porcelain)" || echo "Already up-to-date" && exit 0
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add PKGBUILD .SRCINFO
+          git commit -m "Updated to $VERSION"
+          git push
+          echo "Updated"
