@@ -29,9 +29,13 @@ jobs:
         run: |
           version="$(echo ./code-insider-*.tar.gz | grep -Po "\.\/code-insider-\K.+" | rev | cut -c8- | rev)"
           echo "::set-output name=version::${version}"
+          echo "Latest version: ${version}"
       - name: Get SHA256 of x86_64 tar
         id: sha256-x86_64
-        run: echo "::set-output name=hash::$(sha256sum ./code-insider-*.tar.gz | awk '{ print $1 }')"
+        run: |
+          hash="$(sha256sum ./code-insider-*.tar.gz | awk '{ print $1 }')"
+          echo "::set-output name=hash::${hash}"
+          echo "SHA256 x86_64: ${hash}"
 
   edit-pkgbuild:
     needs: get-upstream-version
