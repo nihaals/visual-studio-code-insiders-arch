@@ -1,7 +1,8 @@
-pkgname=visual-studio-code-insiders
+pkgname=visual-studio-code-insiders-bin
 pkgver=1597220398
 pkgrel=1
 pkgdesc="Editor for building and debugging modern web and cloud applications (insiders version)"
+conflicts=('visual-studio-code-insiders')
 arch=('x86_64')
 url="https://code.visualstudio.com/"
 license=('custom: commercial')
@@ -21,18 +22,19 @@ optdepends=(
   'glib2: Needed for move to trash functionality'
   'libdbusmenu-glib: Needed for KDE global menu'
 )
+_pkgname=visual-studio-code-insiders
 
 _src_x86_64="https://update.code.visualstudio.com/latest/linux-x64/insider"
 source_x86_64=(
   "code_x64_${pkgver}.tar.gz::${_src_x86_64}"
-  "${pkgname}.desktop"
-  "${pkgname}-url-handler.desktop"
+  "${_pkgname}.desktop"
+  "${_pkgname}-url-handler.desktop"
 )
 _src_x86="https://update.code.visualstudio.com/latest/linux-ia32/insider"
 # source_i686=(
 #   "code_ia32_${pkgver}.tar.gz::${_src_x86}"
-#   "${pkgname}.desktop"
-#   "${pkgname}-url-handler.desktop"
+#   "${_pkgname}.desktop"
+#   "${_pkgname}-url-handler.desktop"
 # )
 
 _main_desktop_sha256='edfeb13aa50d35fbae748ff545b5bd126be916dbfeda682157e3d5ce81574db2'
@@ -54,17 +56,17 @@ package() {
     _pkg=VSCode-linux-ia32
   fi
 
-  install -d "${pkgdir}/usr/share/licenses/${pkgname}"
-  install -d "${pkgdir}/opt/${pkgname}"
+  install -d "${pkgdir}/usr/share/licenses/${_pkgname}"
+  install -d "${pkgdir}/opt/${_pkgname}"
   install -d "${pkgdir}/usr/bin"
   install -d "${pkgdir}/usr/share/applications"
   install -d "${pkgdir}/usr/share/icons"
 
-  install -m644 "${srcdir}/${_pkg}/resources/app/LICENSE.rtf" "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.rtf"
-  install -m644 "${srcdir}/${_pkg}/resources/app/resources/linux/code.png" "${pkgdir}/usr/share/icons/${pkgname}.png"
-  install -m644 "${srcdir}/${pkgname}.desktop" "${pkgdir}/usr/share/applications/${pkgname}.desktop"
-  install -m644 "${srcdir}/${pkgname}-url-handler.desktop" "${pkgdir}/usr/share/applications/${pkgname}-url-handler.desktop"
+  install -m644 "${srcdir}/${_pkg}/resources/app/LICENSE.rtf" "${pkgdir}/usr/share/licenses/${_pkgname}/LICENSE.rtf"
+  install -m644 "${srcdir}/${_pkg}/resources/app/resources/linux/code.png" "${pkgdir}/usr/share/icons/${_pkgname}.png"
+  install -m644 "${srcdir}/${_pkgname}.desktop" "${pkgdir}/usr/share/applications/${_pkgname}.desktop"
+  install -m644 "${srcdir}/${_pkgname}-url-handler.desktop" "${pkgdir}/usr/share/applications/${_pkgname}-url-handler.desktop"
 
-  cp -r "${srcdir}/${_pkg}/"* "${pkgdir}/opt/${pkgname}" -R
-  ln -s "/opt/${pkgname}/bin/code-insiders" "${pkgdir}/usr/bin/code-insiders"
+  cp -r "${srcdir}/${_pkg}/"* "${pkgdir}/opt/${_pkgname}" -R
+  ln -s "/opt/${_pkgname}/bin/code-insiders" "${pkgdir}/usr/bin/code-insiders"
 }
