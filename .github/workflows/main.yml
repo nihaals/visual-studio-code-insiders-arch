@@ -6,6 +6,7 @@ on:
       - master
     paths:
       - .github/workflows/**
+      - .github/actions/**
       - PKGBUILD
       - visual-studio-code-insiders.desktop
       - visual-studio-code-insiders-url-handler.desktop
