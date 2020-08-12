@@ -1,6 +1,6 @@
 pkgname=visual-studio-code-insiders
-pkgver=1597220398
-pkgrel=1
+pkgver=1
+pkgrel=2
 pkgdesc="Editor for building and debugging modern web and cloud applications (insiders version)"
 arch=('x86_64')
 url="https://code.visualstudio.com/"
