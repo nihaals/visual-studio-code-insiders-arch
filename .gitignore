@@ -1,3 +1,7 @@
-.vscode/
+/.vscode/
+/pkg/
+/src/
+
 code-insider-*.tar.gz
 code_*_*.tar.gz
+visual-studio-code-insiders-*.pkg.tar.zst
