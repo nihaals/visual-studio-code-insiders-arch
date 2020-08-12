@@ -56,7 +56,6 @@ jobs:
         env:
           VERSION: ${{ needs.get-upstream-version.outputs.version }}
         run: |
-          test -z "$(git status --porcelain)" || echo "Already up-to-date" && exit 0
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
