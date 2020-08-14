@@ -42,6 +42,8 @@ jobs:
     needs: get-upstream-version
     name: Edit PKGBUILD and push
     runs-on: ubuntu-latest
+    outputs:
+      updated: ${{ steps.push.outputs.updated }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -56,6 +58,7 @@ jobs:
         id: pkg
         uses: ./.github/actions/pkg
       - name: Push update
+        id: push
         env:
           VERSION: ${{ needs.get-upstream-version.outputs.version }}
         run: |
@@ -63,11 +66,41 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add PKGBUILD .SRCINFO
-          git commit -m "Updated to $VERSION" || exit 0
+          git commit -m "Updated to $VERSION" || echo "::set-output name=updated::false"
           git push
           echo "Updated"
+          echo "::set-output name=updated::true"
       - name: Upload artefact
         uses: actions/upload-artifact@v2
         with:
           name: ${{ steps.pkg.outputs.pkgfile0 }}
           path: ${{ steps.pkg.outputs.pkgfile0 }}
+
+  build-gh-pages:
+    name: Build GH Pages
+    needs: edit-pkgbuild
+    runs-on: ubuntu-latest
+    container: archlinux
+    if: needs.edit-pkgbuild.outputs.updated == 'true' || github.event_name != 'schedule'
+    steps:
+      - name: Install dependencies
+        run: pacman -Syu --noconfirm --noprogressbar --needed base-devel git
+      - uses: actions/checkout@v2
+      - name: Download artefacts
+        uses: actions/download-artifact@v2
+        with:
+          path: dist/
+      - name: Create repo files
+        run: |
+          repo-add dist/visual-studio-code-insiders.db.tar.gz dist/visual-studio-code-insiders-*.pkg.tar.zst
+          rm -f *.old
+      - name: Generate index
+        run: .github/actions/generate-index/generate-index.sh dist
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          user_name: 'github-actions[bot]'
+          user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+          commit_message: Deploy commit
