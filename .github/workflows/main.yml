@@ -10,7 +10,7 @@ on:
       - PKGBUILD
       - visual-studio-code-insiders.desktop
       - visual-studio-code-insiders-url-handler.desktop
-  workflow_dispatch: []
+  workflow_dispatch:
   schedule:
     - cron: "0 */3 * * *"
 
