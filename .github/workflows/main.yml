@@ -91,10 +91,11 @@ jobs:
       - name: Download artefacts
         uses: actions/download-artifact@v2
         with:
-          path: dist/
+          path: pkg/
       - name: Create repo files
         run: |
-          repo-add -R dist/visual-studio-code-insiders.db.tar.gz dist/visual-studio-code-insiders-*.pkg.tar.zst/visual-studio-code-insiders-*.pkg.tar.zst
+          mv pkg/*/*.pkg.* dist
+          repo-add -R dist/visual-studio-code-insiders.db.tar.gz dist/visual-studio-code-insiders-*.pkg.tar.zst
       - name: Generate index
         run: repo/.github/actions/generate-index/generate-index.sh dist
       - name: Deploy
