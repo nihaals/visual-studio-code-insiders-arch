@@ -83,19 +83,20 @@ jobs:
     container: archlinux
     if: needs.edit-pkgbuild.outputs.updated == 'true' || github.event_name != 'schedule'
     steps:
-      - name: Install dependencies
+      - name: Install dependencies and update
         run: pacman -Syu --noconfirm --noprogressbar --needed base-devel git
       - uses: actions/checkout@v2
+        with:
+          path: repo/
       - name: Download artefacts
         uses: actions/download-artifact@v2
         with:
           path: dist/
       - name: Create repo files
         run: |
-          repo-add dist/visual-studio-code-insiders.db.tar.gz dist/visual-studio-code-insiders-*.pkg.tar.zst
-          rm -f *.old
+          repo-add -R dist/visual-studio-code-insiders.db.tar.gz dist/visual-studio-code-insiders-*.pkg.tar.zst/visual-studio-code-insiders-*.pkg.tar.zst
       - name: Generate index
-        run: .github/actions/generate-index/generate-index.sh dist
+        run: repo/.github/actions/generate-index/generate-index.sh dist
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
