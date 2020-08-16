@@ -94,6 +94,7 @@ jobs:
           path: pkg/
       - name: Create repo files
         run: |
+          mkdir dist/
           mv pkg/*/*.pkg.* dist
           repo-add -R dist/visual-studio-code-insiders.db.tar.gz dist/visual-studio-code-insiders-*.pkg.tar.zst
       - name: Generate index
