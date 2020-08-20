@@ -4,7 +4,7 @@
 
 code-insider-*.tar.gz
 code_*_*.tar.gz
-visual-studio-code-insiders-*.pkg.tar.zst
+visual-studio-code-insiders-*.pkg.tar.*
 visual-studio-code-insiders.db
 visual-studio-code-insiders.db.tar.*
 visual-studio-code-insiders.files
