@@ -1,9 +1,9 @@
 #!/bin/bash
 chmod -R a+rw .
 
-sudo -u builder makepkg --printsrcinfo > .SRCINFO
+sudo -Eu builder makepkg --printsrcinfo > .SRCINFO
 
-mapfile -t PKGFILES < <( sudo -u builder makepkg --packagelist )
+mapfile -t PKGFILES < <( sudo -Eu builder makepkg --packagelist )
 echo "Package(s): ${PKGFILES[*]}"
 
 # Optionally install dependencies from AUR
@@ -13,19 +13,19 @@ if [ -n "${INPUT_AURDEPS:-}" ]; then
 	git clone https://aur.archlinux.org/yay.git /tmp/yay
 	pushd /tmp/yay
 	chmod -R a+rw .
-	sudo -H -u builder makepkg --syncdeps --install --noconfirm
+	sudo -EH -u builder makepkg --syncdeps --install --noconfirm
 	popd
 
 	# Extract dependencies from .SRCINFO (depends or depends_x86_64) and install
 	mapfile -t PKGDEPS < \
 		<(sed -n -e 's/^[[:space:]]*depends\(_x86_64\)\? = \([[:alnum:][:punct:]]*\)[[:space:]]*$/\2/p' .SRCINFO)
-	sudo -H -u builder yay --sync --noconfirm "${PKGDEPS[@]}"
+	sudo -EH -u builder yay --sync --noconfirm "${PKGDEPS[@]}"
 fi
 
 # Build packages
 # INPUT_MAKEPKGARGS is intentionally unquoted to allow arg splitting
 # shellcheck disable=SC2086
-sudo -H -u builder makepkg --syncdeps --noconfirm ${INPUT_MAKEPKGARGS:-}
+sudo -EH -u builder makepkg --syncdeps --noconfirm ${INPUT_MAKEPKGARGS:-}
 
 # Report built package archives
 i=0
