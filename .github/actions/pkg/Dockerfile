@@ -1,5 +1,7 @@
 FROM archlinux:latest
 
+ENV PKGEXT ".pkg.tar.xz"
+
 COPY build.sh /build.sh
 RUN /build.sh && rm /build.sh
 
