@@ -97,7 +97,7 @@ jobs:
         run: |
           mkdir dist/
           mv pkg/*/*.pkg.* dist
-          repo-add -R dist/visual-studio-code-insiders.db.tar.gz dist/visual-studio-code-insiders-*.pkg.tar.zst
+          repo-add -R dist/visual-studio-code-insiders.db.tar.gz dist/visual-studio-code-insiders-*.pkg.*
       - name: Generate index
         run: repo/.github/actions/generate-index/generate-index.sh dist
       - name: Deploy
