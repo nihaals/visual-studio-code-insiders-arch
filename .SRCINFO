@@ -1,0 +1,28 @@
+pkgbase = visual-studio-code-insiders
+	pkgdesc = Editor for building and debugging modern web and cloud applications (insiders version)
+	pkgver = 1599828225
+	pkgrel = 1
+	url = https://code.visualstudio.com/
+	arch = x86_64
+	license = custom: commercial
+	depends = libxkbfile
+	depends = gnupg
+	depends = gtk3
+	depends = libsecret
+	depends = nss
+	depends = gcc-libs
+	depends = libnotify
+	depends = libxss
+	depends = glibc
+	depends = lsof
+	optdepends = glib2: Needed for move to trash functionality
+	optdepends = libdbusmenu-glib: Needed for KDE global menu
+	source_x86_64 = code_x64_1599828225.tar.gz::https://update.code.visualstudio.com/latest/linux-x64/insider
+	source_x86_64 = visual-studio-code-insiders.desktop
+	source_x86_64 = visual-studio-code-insiders-url-handler.desktop
+	sha256sums_x86_64 = c6564cf0ba25bff52ff7e00b7465860813ab76e6c3d61ecb23195030979c891e
+	sha256sums_x86_64 = edfeb13aa50d35fbae748ff545b5bd126be916dbfeda682157e3d5ce81574db2
+	sha256sums_x86_64 = d06d9d057b507d1747a8ed8ae304beb5e20c7bf887c362c941d85b02c893069e
+
+pkgname = visual-studio-code-insiders
+
