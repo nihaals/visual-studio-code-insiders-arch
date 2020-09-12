@@ -20,6 +20,10 @@ print(f'Current pkgver: {current_version}')
 print(f'Latest pkgver: {latest_version}')
 print(f'{latest_version} x86_64 SHA256: {latest_hash_x86_64}')
 
+if re.search(r"^\d+$", latest_version) is None:
+    print('Current version is invalid')
+    exit(1)
+
 with open('PKGBUILD') as fp:
     contents = fp.read()
 
