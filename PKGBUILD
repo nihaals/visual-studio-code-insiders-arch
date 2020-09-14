@@ -1,5 +1,5 @@
 pkgname=visual-studio-code-insiders
-pkgver=1599873150
+pkgver=1600061057
 pkgrel=1
 pkgdesc="Editor for building and debugging modern web and cloud applications (insiders version)"
 arch=('x86_64')
@@ -38,7 +38,7 @@ _src_x86="https://update.code.visualstudio.com/latest/linux-ia32/insider"
 _main_desktop_sha256='edfeb13aa50d35fbae748ff545b5bd126be916dbfeda682157e3d5ce81574db2'
 _url_handler_desktop_sha256='d06d9d057b507d1747a8ed8ae304beb5e20c7bf887c362c941d85b02c893069e'
 sha256sums_x86_64=(
-  '343432c184a33e4f6a07651d95dcfcc7109009093082b74030a2b76cdb683696'
+  'c3d499b6849f29ddc2651426d72e729dc25571b6c6db77b00a13eace7519ca05'
   "${_main_desktop_sha256}"
   "${_url_handler_desktop_sha256}"
 )
