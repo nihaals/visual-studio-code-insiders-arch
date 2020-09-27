@@ -1,5 +1,7 @@
 pkgname=visual-studio-code-insiders
-pkgver=1601012849
+_pkgbuildnumber=1601012849
+_pkgversion=1.50.0_insider
+pkgver="${_pkgversion}_${_pkgbuildnumber}"
 pkgrel=1
 pkgdesc="Editor for building and debugging modern web and cloud applications (insiders version)"
 arch=('x86_64')
@@ -24,7 +26,7 @@ optdepends=(
 
 _src_x86_64="https://update.code.visualstudio.com/latest/linux-x64/insider"
 source_x86_64=(
-  "code_x64_${pkgver}.tar.gz::${_src_x86_64}"
+  "code_insider_x64_${_pkgbuildnumber}.tar.gz::${_src_x86_64}"
   "${pkgname}.desktop"
   "${pkgname}-url-handler.desktop"
 )

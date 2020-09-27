@@ -20,15 +20,24 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.get-version.outputs.version }}
+      build_number: ${{ steps.get-build-number.outputs.build_number }}
       sha256-x86_64: ${{ steps.sha256-x86_64.outputs.hash }}
     steps:
       - uses: actions/checkout@v2
       - name: Download latest tar
         run: curl -JLO "$(cat PKGBUILD | grep -Po "_src_x86_64=\"\K.+\"" | rev | cut -c2- | rev)"
-      - name: Extract version number from tar
+      - name: Extract version number from tar name
+        id: get-build-number
+        run: |
+          build_number="$(echo ./code-insider-*.tar.gz | grep -Po "\.\/code-insider-x64-\K.+" | rev | cut -c8- | rev)"
+          echo "::set-output name=build_number::${build_number}"
+          echo "Latest build number: ${build_number}"
+      - name: Extract tar
+        run: tar -xvzf ./code-insider-*.tar.gz
+      - name: Get version
         id: get-version
         run: |
-          version="$(echo ./code-insider-*.tar.gz | grep -Po "\.\/code-insider-x64-\K.+" | rev | cut -c8- | rev)"
+          version="$(./VSCode-linux-x64/bin/code-insiders --version | head -n1 | sed "s/-/_/")"
           echo "::set-output name=version::${version}"
           echo "Latest version: ${version}"
       - name: Get SHA256 of x86_64 tar
@@ -51,6 +60,7 @@ jobs:
           python-version: '3.x'
       - name: Update version
         with:
+          BUILD_NUMBER: ${{ needs.get-upstream-version.outputs.build_number }}
           VERSION: ${{ needs.get-upstream-version.outputs.version }}
           SHA256_x86_64: ${{ needs.get-upstream-version.outputs.sha256-x86_64 }}
         run: python ./.github/actions/update-version/update-version.py
@@ -60,6 +70,7 @@ jobs:
       - name: Push update
         id: push
         with:
+          BUILD_NUMBER: ${{ needs.get-upstream-version.outputs.build_number }}
           VERSION: ${{ needs.get-upstream-version.outputs.version }}
         run: |
           git config --global user.name "github-actions[bot]"
@@ -67,7 +78,7 @@ jobs:
 
           git add PKGBUILD .SRCINFO
           git diff --cached --exit-code > /dev/null && echo "::set-output name=updated::false" && exit 0 || :
-          git commit -m "Update to $INPUT_VERSION"
+          git commit -m "Update to ${INPUT_VERSION}_${INPUT_BUILD_NUMBER}"
           git push
           echo "Updated"
           echo "::set-output name=updated::true"

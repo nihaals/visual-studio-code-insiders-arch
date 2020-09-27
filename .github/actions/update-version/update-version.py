@@ -5,32 +5,39 @@ import re
 with open('PKGBUILD') as fp:
     for line in fp.readlines():
         line = line.strip()
-        current_version = re.search(r"^pkgver=(.+)$", line)
-        if current_version is None:
+        current_build_number = re.search(r"^_pkgbuildnumber=(.+)$", line)
+        if current_build_number is None:
             continue
-        current_version = current_version.group(1)
+        current_build_number = current_build_number.group(1)
         break
     else:
-        raise ValueError("pkgver not found")
+        raise ValueError("_pkgbuildnumber not found")
 
 latest_version = os.environ['INPUT_VERSION']
+latest_build_number = os.environ['INPUT_BUILD_NUMBER']
 latest_hash_x86_64 = os.environ['INPUT_SHA256_x86_64']
 
-print(f'Current pkgver: {current_version}')
-print(f'Latest pkgver: {latest_version}')
-print(f'{latest_version} x86_64 SHA256: {latest_hash_x86_64}')
+print(f'Current build number: {current_build_number}')
+print(f'Latest build number: {latest_build_number}')
+print(f'Latest version: {latest_version}')
+print(f'{latest_version}_{latest_build_number} x86_64 SHA256: {latest_hash_x86_64}')
 
-if re.search(r"^\d+$", latest_version) is None:
-    print('Current version is invalid')
+if latest_build_number.isdigit() is False:
+    print('Latest build number is invalid')
+    exit(1)
+
+if ' ' in latest_version or '-' in latest_version:
+    print('Latest version is invalid')
     exit(1)
 
 with open('PKGBUILD') as fp:
     contents = fp.read()
 
-if current_version != latest_version:
+if current_build_number != latest_build_number:
     contents = re.sub(r"^pkgrel=.+$", 'pkgrel=1', contents, flags=re.MULTILINE)
 
-contents = re.sub(r"^pkgver=.+$", f'pkgver={latest_version}', contents, flags=re.MULTILINE)
+contents = re.sub(r"^_pkgbuildnumber=.+$", f'_pkgbuildnumber={latest_build_number}', contents, flags=re.MULTILINE)
+contents = re.sub(r"^_pkgversion=.+$", f'_pkgversion={latest_version}', contents, flags=re.MULTILINE)
 contents = re.sub(r"(sha256sums_x86_64=\(\n  ').+'\n", f"\g<1>{latest_hash_x86_64}'\n", contents)
 
 with open('PKGBUILD', 'w') as fp:
