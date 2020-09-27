@@ -18,8 +18,8 @@ depends=(
   'lsof' # terminal splitting, see https://github.com/Microsoft/vscode/issues/62991
 )
 optdepends=(
-  'glib2: Needed for move to trash functionality'
-  'libdbusmenu-glib: Needed for KDE global menu'
+  "glib2: Needed for move to trash functionality"
+  "libdbusmenu-glib: Needed for KDE global menu"
 )
 
 _src_x86_64="https://update.code.visualstudio.com/latest/linux-x64/insider"
