@@ -59,19 +59,19 @@ jobs:
         with:
           python-version: '3.x'
       - name: Update version
-        with:
-          BUILD_NUMBER: ${{ needs.get-upstream-version.outputs.build_number }}
-          VERSION: ${{ needs.get-upstream-version.outputs.version }}
-          SHA256_x86_64: ${{ needs.get-upstream-version.outputs.sha256-x86_64 }}
+        env:
+          INPUT_BUILD_NUMBER: ${{ needs.get-upstream-version.outputs.build_number }}
+          INPUT_VERSION: ${{ needs.get-upstream-version.outputs.version }}
+          INPUT_SHA256_x86_64: ${{ needs.get-upstream-version.outputs.sha256-x86_64 }}
         run: python ./.github/actions/update-version/update-version.py
       - name: Package utils
         id: pkg
         uses: ./.github/actions/pkg
       - name: Push update
         id: push
-        with:
-          BUILD_NUMBER: ${{ needs.get-upstream-version.outputs.build_number }}
-          VERSION: ${{ needs.get-upstream-version.outputs.version }}
+        env:
+          INPUT_BUILD_NUMBER: ${{ needs.get-upstream-version.outputs.build_number }}
+          INPUT_VERSION: ${{ needs.get-upstream-version.outputs.version }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
