@@ -2,6 +2,7 @@
 /pkg/
 /src/
 
+VSCode-*/
 code-insider-*.tar.gz
 code_*_*.tar.gz
 visual-studio-code-insiders-*.pkg.tar.*
