@@ -13,8 +13,8 @@ with open('PKGBUILD') as fp:
     else:
         raise ValueError("pkgver not found")
 
-latest_version = os.environ['VERSION']
-latest_hash_x86_64 = os.environ['SHA256_x86_64']
+latest_version = os.environ['INPUT_VERSION']
+latest_hash_x86_64 = os.environ['INPUT_SHA256_x86_64']
 
 print(f'Current pkgver: {current_version}')
 print(f'Latest pkgver: {latest_version}')
