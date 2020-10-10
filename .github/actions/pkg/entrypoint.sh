@@ -37,6 +37,7 @@ for PKGFILE in "${PKGFILES[@]}"; do
 		echo "::set-output name=pkgfile$i::$RELPKGFILE"
 	else
 		echo "Archive $RELPKGFILE not built"
+		exit 1
 	fi
 	(( ++i ))
 done
