@@ -1,6 +1,6 @@
 pkgbase = visual-studio-code-insiders
 	pkgdesc = Editor for building and debugging modern web and cloud applications (insiders version)
-	pkgver = 1.51.0_insider+r1602655003
+	pkgver = 1.51.0_insider+1602655003
 	pkgrel = 1
 	url = https://code.visualstudio.com/
 	arch = x86_64
