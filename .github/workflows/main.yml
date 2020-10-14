@@ -78,7 +78,7 @@ jobs:
 
           git add PKGBUILD .SRCINFO
           git diff --cached --exit-code > /dev/null && echo "::set-output name=updated::false" && exit 0 || :
-          git commit -m "Update to ${INPUT_VERSION}+r${INPUT_BUILD_NUMBER}"
+          git commit -m "Update to ${INPUT_VERSION}+${INPUT_BUILD_NUMBER}"
           git push
           echo "Updated"
           echo "::set-output name=updated::true"

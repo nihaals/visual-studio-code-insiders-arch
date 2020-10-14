@@ -1,7 +1,7 @@
 pkgname=visual-studio-code-insiders
 _pkgbuildnumber=1602655003
 _pkgversion=1.51.0_insider
-pkgver="${_pkgversion}+r${_pkgbuildnumber}"
+pkgver="${_pkgversion}+${_pkgbuildnumber}"
 pkgrel=1
 pkgdesc="Editor for building and debugging modern web and cloud applications (insiders version)"
 arch=('x86_64')

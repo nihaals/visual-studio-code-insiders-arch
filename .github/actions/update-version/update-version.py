@@ -20,7 +20,7 @@ latest_hash_x86_64 = os.environ['INPUT_SHA256_x86_64']
 print(f'Current build number: {current_build_number}')
 print(f'Latest build number: {latest_build_number}')
 print(f'Latest version: {latest_version}')
-print(f'{latest_version}+r{latest_build_number} x86_64 SHA256: {latest_hash_x86_64}')
+print(f'{latest_version}+{latest_build_number} x86_64 SHA256: {latest_hash_x86_64}')
 
 if latest_build_number.isdigit() is False:
     print('Latest build number is invalid')
