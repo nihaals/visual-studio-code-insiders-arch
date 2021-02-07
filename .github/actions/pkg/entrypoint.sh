@@ -7,9 +7,15 @@ chmod -R a+rw .
 echo "Writing SRCINFO..."
 
 # Debug
+echo "---"
 ls -l /
+echo "---"
 ls -l /etc
+echo "---"
 sudo -Eu builder cat /etc/makepkg.conf
+echo "---"
+[[ -r "/etc/makepkg.conf" ]] && echo 1 || echo 0
+echo "---"
 
 sudo -Eu builder makepkg --printsrcinfo > .SRCINFO
 
