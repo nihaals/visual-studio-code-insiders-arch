@@ -11,8 +11,8 @@ on:
       - visual-studio-code-insiders.desktop
       - visual-studio-code-insiders-url-handler.desktop
   workflow_dispatch:
-  schedule:
-    - cron: "0 */1 * * *"
+  # schedule:
+  #   - cron: "0 */1 * * *"
 
 jobs:
   get-upstream-version:
