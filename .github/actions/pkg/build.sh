@@ -7,7 +7,7 @@ cat << EOF >> /etc/pacman.conf
 Include = /etc/pacman.d/mirrorlist
 EOF
 
-pacman -Syu --noconfirm base-devel
+pacman -Syu --noconfirm --needed base-devel
 
 useradd builder -m
 echo "builder ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers

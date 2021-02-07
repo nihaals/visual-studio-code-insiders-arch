@@ -85,8 +85,8 @@ jobs:
       - name: Upload artefact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ steps.pkg.outputs.pkgfile0 }}
-          path: ${{ steps.pkg.outputs.pkgfile0 }}
+          name: ${{ steps.pkg.outputs.pkgfile }}
+          path: ${{ steps.pkg.outputs.pkgfile }}
 
   build-gh-pages:
     name: Build GH Pages
