@@ -9,6 +9,7 @@ echo "Writing SRCINFO..."
 # Debug
 ls -l /
 ls -l /etc
+sudo -Eu builder cat /etc/makepkg.conf
 
 sudo -Eu builder makepkg --printsrcinfo > .SRCINFO
 
