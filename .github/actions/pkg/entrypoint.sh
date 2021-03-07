@@ -5,18 +5,6 @@ echo "Setting permissions..."
 chmod -R a+rw .
 
 echo "Writing SRCINFO..."
-
-# Debug
-echo "---"
-ls -l /
-echo "---"
-ls -l /etc
-echo "---"
-sudo -Eu builder cat /etc/makepkg.conf
-echo "---"
-sudo -Eu builder /bin/bash -c "[[ -r "/etc/makepkg.conf" ]] && echo 1 || echo 0"
-echo "---"
-
 sudo -Eu builder makepkg --printsrcinfo > .SRCINFO
 
 echo "Getting package file..."
