@@ -1,5 +1,5 @@
 pkgname=visual-studio-code-insiders
-_pkgbuildnumber=1642111222
+_pkgbuildnumber=1642139473
 _pkgversion=1.64.0_insider
 pkgver="${_pkgversion}+${_pkgbuildnumber}"
 pkgrel=1
@@ -34,7 +34,7 @@ source_x86_64=(
 _main_desktop_sha256='edfeb13aa50d35fbae748ff545b5bd126be916dbfeda682157e3d5ce81574db2'
 _url_handler_desktop_sha256='d06d9d057b507d1747a8ed8ae304beb5e20c7bf887c362c941d85b02c893069e'
 sha256sums_x86_64=(
-  '10c9eef9963ddf77a744da6fdddd043fb903b4df7393100b11449869828e43b2'
+  'ceea23b3b1630b07b3e59482e0908633732cbb7d913445b5f9303268b7226482'
   "${_main_desktop_sha256}"
   "${_url_handler_desktop_sha256}"
 )
