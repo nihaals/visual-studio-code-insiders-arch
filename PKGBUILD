@@ -1,6 +1,6 @@
 pkgname=visual-studio-code-insiders
-_pkgbuildnumber=1654689749
-_pkgversion=1.68.0_insider
+_pkgbuildnumber=1654843924
+_pkgversion=1.69.0_insider
 pkgver="${_pkgversion}+${_pkgbuildnumber}"
 pkgrel=1
 pkgdesc="Editor for building and debugging modern web and cloud applications (insiders version)"
@@ -34,7 +34,7 @@ source_x86_64=(
 _main_desktop_sha256='edfeb13aa50d35fbae748ff545b5bd126be916dbfeda682157e3d5ce81574db2'
 _url_handler_desktop_sha256='d06d9d057b507d1747a8ed8ae304beb5e20c7bf887c362c941d85b02c893069e'
 sha256sums_x86_64=(
-  '2cbf28f89eaea286d5473ed70bdf2ebd679dfc33641eb53da50d669753432d6f'
+  '0731553a727ffd60b10026e04482a556b41dc0d6a29704c1f0a69d1e120d7264'
   "${_main_desktop_sha256}"
   "${_url_handler_desktop_sha256}"
 )
