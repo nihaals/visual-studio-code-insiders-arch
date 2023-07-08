@@ -88,8 +88,8 @@ jobs:
           name: ${{ steps.pkg.outputs.pkgfile }}
           path: ${{ steps.pkg.outputs.pkgfile }}
 
-  build-gh-pages:
-    name: Build GH Pages
+  build-github-pages:
+    name: Build GitHub Pages
     needs: edit-pkgbuild
     runs-on: ubuntu-latest
     container: archlinux
