@@ -119,9 +119,11 @@ jobs:
 
   update-pkgbuild:
     name: Update PKGBUILD
-    # Only run if there was a PKGBUILD update (implied by `build-github-pages`)
+    # Only run if there was a PKGBUILD update
     # Only update if deploy was successful so failed deploys are retried
     needs: [get-upstream-version, edit-pkgbuild, build-github-pages]
+    # In case this isn't a scheduled run
+    if: needs.edit-pkgbuild.outputs.updated == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
