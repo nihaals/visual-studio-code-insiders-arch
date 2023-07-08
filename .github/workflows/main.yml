@@ -52,13 +52,14 @@ jobs:
     name: Edit PKGBUILD and push
     runs-on: ubuntu-latest
     outputs:
-      updated: ${{ steps.push.outputs.updated }}
+      updated: ${{ steps.bump-version.outputs.updated }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
           python-version: '3.x'
       - name: Update version
+        id: bump-version
         env:
           INPUT_BUILD_NUMBER: ${{ needs.get-upstream-version.outputs.build_number }}
           INPUT_VERSION: ${{ needs.get-upstream-version.outputs.version }}
@@ -67,26 +68,21 @@ jobs:
       - name: Build package and update .SRCINFO
         id: pkg
         uses: ./.github/actions/pkg
-      - name: Push update
-        id: push
-        env:
-          INPUT_BUILD_NUMBER: ${{ needs.get-upstream-version.outputs.build_number }}
-          INPUT_VERSION: ${{ needs.get-upstream-version.outputs.version }}
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add PKGBUILD .SRCINFO
-          git diff --cached --exit-code > /dev/null && echo "::set-output name=updated::false" && exit 0 || :
-          git commit -m "Update to ${INPUT_VERSION}+${INPUT_BUILD_NUMBER}"
-          git push
-          echo "Updated"
-          echo "::set-output name=updated::true"
-      - name: Upload artefact
+      - name: Upload pkg artefact
         uses: actions/upload-artifact@v2
         with:
           name: ${{ steps.pkg.outputs.pkgfile }}
           path: ${{ steps.pkg.outputs.pkgfile }}
+      - name: Upload PKGBUILD artefact
+        uses: actions/upload-artifact@v2
+        with:
+          name: PKGBUILD
+          path: PKGBUILD
+      - name: Upload .SRCINFO artefact
+        uses: actions/upload-artifact@v2
+        with:
+          name: .SRCINFO
+          path: .SRCINFO
 
   build-github-pages:
     name: Build GitHub Pages
@@ -97,9 +93,6 @@ jobs:
     steps:
       - name: Install dependencies and update
         run: pacman -Syu --noconfirm --noprogressbar --needed base-devel git
-      - uses: actions/checkout@v2
-        with:
-          path: repo/
       - name: Download artefacts
         uses: actions/download-artifact@v2
         with:
@@ -109,6 +102,9 @@ jobs:
           mkdir dist/
           mv pkg/*/*.pkg.* dist
           repo-add -R dist/visual-studio-code-insiders.db.tar.gz dist/visual-studio-code-insiders-*.pkg.*
+      - uses: actions/checkout@v2
+        with:
+          path: repo/
       - name: Generate index
         run: repo/.github/actions/generate-index/generate-index.sh dist
       - name: Deploy
@@ -120,3 +116,31 @@ jobs:
           user_email: '41898282+github-actions[bot]@users.noreply.github.com'
           commit_message: Deploy commit
           force_orphan: true
+
+  update-pkgbuild:
+    name: Update PKGBUILD
+    # Only run if there was a PKGBUILD update (implied by `build-github-pages`)
+    # Only update if deploy was successful so failed deploys are retried
+    needs: [get-upstream-version, edit-pkgbuild, build-github-pages]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download PKGBUILD artefact
+        uses: actions/download-artifact@v2
+        with:
+          name: PKGBUILD
+      - name: Download .SRCINFO artefact
+        uses: actions/download-artifact@v2
+        with:
+          name: .SRCINFO
+      - name: Push update
+        env:
+          INPUT_BUILD_NUMBER: ${{ needs.get-upstream-version.outputs.build_number }}
+          INPUT_VERSION: ${{ needs.get-upstream-version.outputs.version }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add PKGBUILD .SRCINFO
+          git commit -m "Update to ${INPUT_VERSION}+${INPUT_BUILD_NUMBER}"
+          git push
