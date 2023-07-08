@@ -18,7 +18,7 @@ sudo -EH -u builder makepkg --syncdeps --noconfirm
 # makepkg reports absolute paths, must be relative for use by other actions
 RELPKGFILE="$(realpath --relative-base="$PWD" "$PKGFILE")"
 if [ -f "$PKGFILE" ]; then
-  echo "::set-output name=pkgfile::$RELPKGFILE"
+  echo "pkgfile=$RELPKGFILE" >> "$GITHUB_OUTPUT"
 else
   echo "Archive $RELPKGFILE not built"
   exit 1
