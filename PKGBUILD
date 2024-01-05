@@ -59,3 +59,4 @@ package() {
   cp -r "${srcdir}/${_pkg}/"* "${pkgdir}/opt/${pkgname}" -R
   install -m755 "${srcdir}/${pkgname}.sh" "${pkgdir}/usr/bin/code-insiders"
 }
+

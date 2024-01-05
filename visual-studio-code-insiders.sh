@@ -9,3 +9,4 @@ fi
 
 # Launch
 exec /opt/visual-studio-code-insiders/bin/code-insiders $CODE_USER_FLAGS "$@"
+
