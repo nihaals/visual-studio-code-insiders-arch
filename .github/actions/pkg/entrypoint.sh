@@ -8,7 +8,8 @@ echo "Writing SRCINFO..."
 sudo -Eu builder makepkg --printsrcinfo > .SRCINFO
 
 echo "Getting package file..."
-PKGFILE="$(sudo -Eu builder makepkg --packagelist)"
+# The debug package shouldn't be built anyway but suddenly started building
+PKGFILE="$(sudo -Eu builder makepkg --packagelist | grep -v -- '-debug-')"
 echo "Package file: $PKGFILE"
 
 # Build packages
