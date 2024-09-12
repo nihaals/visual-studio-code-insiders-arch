@@ -70,17 +70,17 @@ jobs:
         id: pkg
         uses: ./.github/actions/pkg
       - name: Upload pkg artefact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.pkg.outputs.pkgfile }}
           path: ${{ steps.pkg.outputs.pkgfile }}
       - name: Upload PKGBUILD artefact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: PKGBUILD
           path: PKGBUILD
       - name: Upload .SRCINFO artefact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: .SRCINFO
           path: .SRCINFO
@@ -95,7 +95,7 @@ jobs:
       - name: Install dependencies and update
         run: pacman -Syu --noconfirm --noprogressbar --needed base-devel git
       - name: Download artefacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           path: pkg/
       - name: Create repo files
@@ -129,11 +129,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Download PKGBUILD artefact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: PKGBUILD
       - name: Download .SRCINFO artefact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: .SRCINFO
       - name: Push update
