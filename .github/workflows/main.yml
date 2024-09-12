@@ -109,6 +109,10 @@ jobs:
           path: repo/
       - name: Generate index
         run: repo/.github/actions/generate-index/generate-index.sh dist
+      - name: Configure Git to reduce push errors
+        run: |
+          git config --global http.version HTTP/1.1
+          git config --global http.postBuffer 157286400
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
