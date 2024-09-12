@@ -84,6 +84,7 @@ jobs:
         with:
           name: .SRCINFO
           path: .SRCINFO
+          include-hidden-files: true
 
   build-github-pages:
     name: Build GitHub Pages
